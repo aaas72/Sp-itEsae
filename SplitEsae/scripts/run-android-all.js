@@ -28,22 +28,41 @@ if (devices.length === 0) {
 
 console.log(`✅ Found ${devices.length} connected device(s):`, devices);
 
-// 2. Build the APK using Gradle
+const shouldBuild = !process.argv.includes('--no-build');
+
+// 2. Build the APK using Gradle (unless --no-build is specified)
 const appDir = path.join(__dirname, '..');
 const apkPath = path.join(appDir, 'android', 'app', 'build', 'outputs', 'apk', 'debug', 'app-debug.apk');
 
-console.log("\n🔨 Building the Android app (assembleDebug)... This might take a few minutes...");
-try {
-  const gradlew = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
-  // Use spawn-like inherit to show real-time progress of build
-  execSync(`${gradlew} assembleDebug`, { 
-    cwd: path.join(appDir, 'android'), 
-    stdio: 'inherit' 
-  });
-  console.log("✅ Gradle build successful!");
-} catch (err) {
-  console.error("❌ Gradle build failed:", err.message);
-  process.exit(1);
+if (shouldBuild) {
+  console.log("\n🔨 Building the Android app (assembleDebug)... This might take a few minutes...");
+  try {
+    const gradlew = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
+    execSync(`${gradlew} assembleDebug`, { 
+      cwd: path.join(appDir, 'android'), 
+      stdio: 'inherit' 
+    });
+    console.log("✅ Gradle build successful!");
+  } catch (err) {
+    console.error("❌ Gradle build failed:", err.message);
+    process.exit(1);
+  }
+} else {
+  console.log("\n⚡ Skipping build step (--no-build flag detected). Deploying existing APK...");
+  if (!fs.existsSync(apkPath)) {
+    console.log("⚠️ Existing APK not found! Forcing a new build...");
+    try {
+      const gradlew = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
+      execSync(`${gradlew} assembleDebug`, { 
+        cwd: path.join(appDir, 'android'), 
+        stdio: 'inherit' 
+      });
+      console.log("✅ Gradle build successful!");
+    } catch (err) {
+      console.error("❌ Gradle build failed:", err.message);
+      process.exit(1);
+    }
+  }
 }
 
 if (!fs.existsSync(apkPath)) {
