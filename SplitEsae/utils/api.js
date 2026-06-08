@@ -1,16 +1,19 @@
 import axios from "axios";
+import { Platform } from "react-native";
 import { getRefreshToken, deleteRefreshToken } from "./secureStorage";
 
 const getApiBaseUrl = () => {
   const emulatorUrl = "http://10.0.2.2:5001/api";
+  const localhostUrl = "http://localhost:5001/api";
   // Local network URL for development
   // const localNetworkUrl = "http://192.168.1.101:5001/api";
   // Production URL on Render
   // const productionUrl = "https://splitesae.onrender.com/api";
-  // const iosSimulatorUrl = "http://localhost:5001/api";
 
-  // Use production URL for both development and production
-  return emulatorUrl;
+  if (Platform.OS === "web" || Platform.OS === "ios") {
+    return localhostUrl;
+  }
+  return emulatorUrl; // Default for Android emulator
 };
 
 const BASE_URL = getApiBaseUrl();
