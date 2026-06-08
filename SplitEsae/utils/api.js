@@ -1,19 +1,25 @@
 import axios from "axios";
 import { Platform } from "react-native";
+import Constants from "expo-constants";
 import { getRefreshToken, deleteRefreshToken } from "./secureStorage";
 
 const getApiBaseUrl = () => {
-  const emulatorUrl = "http://10.0.2.2:5001/api";
-  const localhostUrl = "http://localhost:5001/api";
-  // Local network URL for development
-  // const localNetworkUrl = "http://192.168.1.101:5001/api";
-  // Production URL on Render
-  // const productionUrl = "https://splitesae.onrender.com/api";
-
-  if (Platform.OS === "web" || Platform.OS === "ios") {
-    return localhostUrl;
+  if (Platform.OS === "web") {
+    return "http://localhost:5001/api";
   }
-  return emulatorUrl; // Default for Android emulator
+
+  // Get the IP of the server running Metro to allow physical device connections
+  const hostUri = Constants.expoConfig?.hostUri;
+  if (hostUri) {
+    const ip = hostUri.split(":")[0];
+    return `http://${ip}:5001/api`;
+  }
+
+  // Fallbacks if hostUri is not available
+  if (Platform.OS === "ios") {
+    return "http://localhost:5001/api";
+  }
+  return "http://10.0.2.2:5001/api"; // Default Android emulator loopback
 };
 
 const BASE_URL = getApiBaseUrl();
