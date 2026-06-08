@@ -1,0 +1,30 @@
+# dependencies
+**/node_modules/
+
+# Expo
+**/SplitEsae/.expo/
+**/SplitEsae/dist/
+**/SplitEsae/web-build/
+**/SplitEsae/expo-env.d.ts
+
+# Native builds
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Environment files (sensitive config)
+**/.env
+**/config/.env
+**/.env*.local
+
+# Logs and Debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
