@@ -58,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
       } else {
         Alert.alert(
           "⚠️ Bağlantı Başarısız",
-          `Sunucuya ulaşılamıyor.\n\nLütfen kontrol edin:\n• Sunucu 5000 portunda çalışıyor mu\n• Ağ ayarları\n• Doğru adres kullanılıyor mu:\n  - Android emülatör: 10.0.2.2:5000\n  - iOS emülatör: localhost:5000\n  - Gerçek cihaz: Bilgisayar IP`
+          `Sunucuya ulaşılamıyor.\n\nLütfen kontrol edin:\n• Sunucu 5001 portunda çalışıyor mu\n• Ağ ayarları\n• Doğru adres kullanılıyor mu:\n  - Android emülatör: 10.0.2.2:5001\n  - iOS emülatör: localhost:5001\n  - Gerçek cihaz: Bilgisayar IP`
         );
       }
     } catch (error) {
