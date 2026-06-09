@@ -38,9 +38,9 @@ if (shouldBuild) {
   console.log("\n🔨 Building the Android app (assembleDebug)... This might take a few minutes...");
   try {
     const gradlew = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
-    execSync(`${gradlew} assembleDebug`, { 
-      cwd: path.join(appDir, 'android'), 
-      stdio: 'inherit' 
+    execSync(`${gradlew} assembleDebug`, {
+      cwd: path.join(appDir, 'android'),
+      stdio: 'inherit'
     });
     console.log("✅ Gradle build successful!");
   } catch (err) {
@@ -53,9 +53,9 @@ if (shouldBuild) {
     console.log("⚠️ Existing APK not found! Forcing a new build...");
     try {
       const gradlew = process.platform === 'win32' ? 'gradlew.bat' : './gradlew';
-      execSync(`${gradlew} assembleDebug`, { 
-        cwd: path.join(appDir, 'android'), 
-        stdio: 'inherit' 
+      execSync(`${gradlew} assembleDebug`, {
+        cwd: path.join(appDir, 'android'),
+        stdio: 'inherit'
       });
       console.log("✅ Gradle build successful!");
     } catch (err) {
@@ -78,7 +78,7 @@ const promises = devices.map(device => {
       console.log(`[${device}] Installing APK...`);
       execSync(`adb -s ${device} install -r "${apkPath}"`);
       console.log(`[${device}] ✅ APK Installed!`);
-      
+
       console.log(`[${device}] Launching app...`);
       // Use monkey command to launch launcher activity of our package dynamically
       execSync(`adb -s ${device} shell monkey -p com.splitesae.app -c android.intent.category.LAUNCHER 1`);
