@@ -363,6 +363,7 @@ const GroupDetailScreen = ({ route }) => {
             navigation.navigate("AddTransactionScreen", {
               groupId: groupData?.id || groupId,
               groupName: groupData?.name,
+              groupCurrency: groupData?.currency,
               groupMembers: groupData?.members?.filter(member => 
                 member.isActive && member.userId._id !== user._id
               ).map(member => ({
@@ -480,6 +481,7 @@ const GroupDetailScreen = ({ route }) => {
             navigation.navigate("AddTransactionScreen", {
               groupId: groupData?.id || groupId,
               groupName: groupData?.name,
+              groupCurrency: groupData?.currency,
               groupMembers: groupData?.members?.filter(member => 
                 member.isActive && member.userId._id !== user._id
               ).map(member => ({

@@ -135,6 +135,7 @@ const getUserDebts = async (req, res) => {
 const getGroupDebts = async (req, res) => {
   try {
     const { groupId } = req.params;
+    const { status } = req.query; // optional: ?status=active
 
     const group = await Group.findById(groupId);
     if (
@@ -151,7 +152,10 @@ const getGroupDebts = async (req, res) => {
         );
     }
 
-    const debts = await Debt.find({ groupId })
+    const filter = { groupId };
+    if (status) filter.status = status; // only filter when explicitly requested
+
+    const debts = await Debt.find(filter)
       .populate("creditorId", "name avatar")
       .populate("debtorId", "name avatar")
       .sort({ createdAt: -1 });

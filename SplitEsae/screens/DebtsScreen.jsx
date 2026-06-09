@@ -262,7 +262,7 @@ export default function DebtsScreen() {
       groupMembers: groupData.members
         ?.filter(member => member.isActive)
         ?.map(member => ({
-          id: member.userId._id,
+          _id: member.userId._id,  // use _id to match AddDebtScreen lookup
           name: member.userId.name,
           isActive: member.isActive
         })) || [],
@@ -280,11 +280,13 @@ export default function DebtsScreen() {
     navigation.navigate("AddDebt", {
       groupId: groupData.id,
       groupName: groupData.name,
-      groupMembers: groupData.members?.map(member => ({
-        id: member.userId._id,
-        name: member.userId.name,
-        isActive: member.isActive
-      })).filter(member => member.isActive) || [],
+      groupMembers: groupData.members
+        ?.filter(member => member.isActive)
+        ?.map(member => ({
+          _id: member.userId._id,  // use _id to match AddDebtScreen lookup
+          name: member.userId.name,
+          isActive: member.isActive
+        })) || [],
       currentUser: user
     });
   };

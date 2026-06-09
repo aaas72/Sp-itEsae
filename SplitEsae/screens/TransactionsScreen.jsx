@@ -171,6 +171,7 @@ export default function TransactionsScreen() {
           onAddTransaction={() => navigation.navigate('AddTransactionScreen', { 
             groupId, 
             groupName,
+            groupCurrency: groupData?.currency,
             groupMembers: groupData?.members?.filter(member => 
                member.isActive && member.userId._id !== user._id
              ).map(member => ({

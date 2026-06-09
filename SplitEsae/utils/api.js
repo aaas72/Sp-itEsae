@@ -12,6 +12,12 @@ const getApiBaseUrl = () => {
   const hostUri = Constants.expoConfig?.hostUri;
   if (hostUri) {
     const ip = hostUri.split(":")[0];
+    if (ip === "127.0.0.1" || ip === "localhost") {
+      if (Platform.OS === "android") {
+        return "http://10.0.2.2:5001/api";
+      }
+      return "http://localhost:5001/api";
+    }
     return `http://${ip}:5001/api`;
   }
 

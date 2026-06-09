@@ -26,7 +26,7 @@ function AddTransactionScreen() {
   const { user } = useAuth();
 
   // Get data from route params
-  const { groupId, groupName, groupMembers = [] } = route.params || {};
+  const { groupId, groupName, groupMembers = [], groupCurrency } = route.params || {};
   const { transactionId } = route.params || {};
   const isEditing = !!transactionId;
 
@@ -84,7 +84,7 @@ function AddTransactionScreen() {
         amount: parseFloat(amount),
         description: description.trim(),
         participants: selectedRecipients,
-        currency: "USD" // Default currency, can be made dynamic
+        currency: groupCurrency || "SAR" // Use group currency passed from parent screen
       };
 
       console.log("🔄 Creating expense transaction:", expenseData);

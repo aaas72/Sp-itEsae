@@ -43,11 +43,12 @@ const userBalanceRules = [
 
 // --- API Endpoints ---
 
+// ⚠️ IMPORTANT: Static routes MUST come before dynamic /:param routes
+// POST /api/debts/expenses (must be before /:groupId or Express will treat "expenses" as groupId)
+router.post("/expenses", validateRequest(createExpenseRules), createExpenseAndDebts);
+
 // POST /api/debts/:groupId - Create debt(s)
 router.post("/:groupId", createDebt);
-
-// POST /api/debts/expenses
-router.post("/expenses", validateRequest(createExpenseRules), createExpenseAndDebts);
 
 // GET /api/debts/my-debts
 router.get("/my-debts", getUserDebts);

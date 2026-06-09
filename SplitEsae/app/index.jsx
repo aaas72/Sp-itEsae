@@ -98,6 +98,7 @@ function AppNavigator() {
   );
 }
 
+
 // Main navigation component with authentication state check
 function AuthenticatedNavigator() {
   const { isLoading, isAuthenticated } = useAuth();
@@ -111,25 +112,19 @@ function AuthenticatedNavigator() {
     );
   }
 
-  if (isAuthenticated) {
-    return (
-      <Stack.Navigator
-        screenOptions={{
-          headerShown: false,
-        }}
-      >
-        <Stack.Screen name="App" component={AppNavigator} />
-      </Stack.Navigator>
-    );
-  }
-
+  // Use a single navigator that switches screens — avoids SceneView crash
+  // caused by unmounting the entire stack during logout
   return (
     <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
+      screenOptions={{ headerShown: false }}
+      // key forces a fresh stack when auth state changes, cleanly resetting history
+      key={isAuthenticated ? "authenticated" : "unauthenticated"}
     >
-      <Stack.Screen name="Auth" component={AuthStack} />
+      {isAuthenticated ? (
+        <Stack.Screen name="App" component={AppNavigator} />
+      ) : (
+        <Stack.Screen name="Auth" component={AuthStack} />
+      )}
     </Stack.Navigator>
   );
 }

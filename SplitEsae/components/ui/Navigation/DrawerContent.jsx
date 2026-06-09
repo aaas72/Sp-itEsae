@@ -74,9 +74,9 @@ const DrawerContent = ({ navigation, state }) => {
         onPress: async () => {
           try {
             setIsLoggingOut(true);
-            await new Promise((resolve) => setTimeout(resolve, 3000));
             await logout();
-            navigation.navigate("Login");
+            // No need to navigate — AuthenticatedNavigator automatically
+            // switches to the Auth stack when isAuthenticated becomes false
           } catch (error) {
             console.error("Logout error:", error);
           } finally {
